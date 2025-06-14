@@ -1,0 +1,46 @@
+{
+  "light": {
+    "name": "ライトテーマ",
+    "colors": {
+      "primary": "#2196F3",
+      "secondary": "#FF9800",
+      "success": "#4CAF50",
+      "warning": "#FF5722",
+      "error": "#F44336",
+      "background": "#FAFAFA",
+      "surface": "#FFFFFF",
+      "text_primary": "#212121",
+      "text_secondary": "#757575",
+      "border": "#E0E0E0"
+    },
+    "fonts": {
+      "family": "Yu Gothic UI",
+      "size_small": 10,
+      "size_medium": 12,
+      "size_large": 14,
+      "size_title": 18
+    }
+  },
+  "dark": {
+    "name": "ダークテーマ",
+    "colors": {
+      "primary": "#64B5F6",
+      "secondary": "#FFB74D",
+      "success": "#81C784",
+      "warning": "#E57373",
+      "error": "#EF5350",
+      "background": "#121212",
+      "surface": "#1E1E1E",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#B0B0B0",
+      "border": "#333333"
+    },
+    "fonts": {
+      "family": "Yu Gothic UI",
+      "size_small": 10,
+      "size_medium": 12,
+      "size_large": 14,
+      "size_title": 18
+    }
+  }
+}

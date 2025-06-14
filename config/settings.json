@@ -1,0 +1,45 @@
+{
+  "app": {
+    "name": "業務支援システム v3.0",
+    "version": "3.0.0",
+    "language": "ja_JP",
+    "theme": "light"
+  },
+  "window": {
+    "width": 1920,
+    "height": 1009,
+    "maximized": true,
+    "remember_size": true,
+    "remember_position": true
+  },
+  "database": {
+    "type": "sqlite",
+    "path": "business_system.db",
+    "backup_enabled": true,
+    "backup_interval": 24,
+    "auto_optimize": true
+  },
+  "ui": {
+    "animation_enabled": true,
+    "animation_duration": 300,
+    "show_tooltips": true,
+    "confirm_deletions": true,
+    "auto_save": true,
+    "auto_save_interval": 5
+  },
+  "features": {
+    "plugins_enabled": true,
+    "advanced_search": true,
+    "dashboard_enabled": true,
+    "notifications_enabled": true
+  },
+  "export": {
+    "default_format": "xlsx",
+    "include_headers": true,
+    "date_format": "%Y-%m-%d",
+    "currency_format": "¥{:,.0f}"
+  },
+  "test": {
+    "value": "テストデータ"
+  }
+}
