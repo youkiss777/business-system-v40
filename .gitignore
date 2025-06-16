@@ -66,7 +66,6 @@ setup_*.py
 *.msi
 
 # Test files
-test_*.py
 debug_*.py
 startup_diagnostic.py
 headless_diagnostic.py
