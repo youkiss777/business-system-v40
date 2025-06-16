@@ -42,6 +42,9 @@ class Customer(Base):
     # リレーション
     loans = relationship("Loan", back_populates="customer")
     invoices = relationship("Invoice", back_populates="customer")
+    quotations = relationship("Quotation", back_populates="customer")
+    sales = relationship("Sale", back_populates="customer")
+    receivables = relationship("Receivable", back_populates="customer")
 
 
 class Product(Base):
@@ -66,6 +69,7 @@ class Product(Base):
     loans = relationship("Loan", back_populates="product")
     stock_adjustments = relationship("StockAdjustment", back_populates="product")
     invoice_details = relationship("InvoiceDetail", back_populates="product")
+    sales = relationship("Sale", back_populates="product")
 
 
 class Loan(Base):
@@ -130,6 +134,7 @@ class Invoice(Base):
     # リレーション
     customer = relationship("Customer", back_populates="invoices")
     details = relationship("InvoiceDetail", back_populates="invoice")
+    receivables = relationship("Receivable", back_populates="invoice")
 
 
 class InvoiceDetail(Base):
@@ -146,6 +151,62 @@ class InvoiceDetail(Base):
     # リレーション
     invoice = relationship("Invoice", back_populates="details")
     product = relationship("Product", back_populates="invoice_details")
+
+
+class Quotation(Base):
+    """見積モデル"""
+    __tablename__ = 'quotations'
+
+    id = Column(Integer, primary_key=True)
+    quotation_date = Column(DateTime, nullable=False)
+    customer_id = Column(Integer, ForeignKey('customers.id'), nullable=False)
+    total_amount = Column(Float, default=0)
+    status = Column(String(20), default='draft')
+    notes = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # リレーション
+    customer = relationship("Customer", back_populates="quotations")
+
+
+class Sale(Base):
+    """売上モデル"""
+    __tablename__ = 'sales'
+
+    id = Column(Integer, primary_key=True)
+    sale_date = Column(DateTime, nullable=False)
+    customer_id = Column(Integer, ForeignKey('customers.id'), nullable=False)
+    product_id = Column(Integer, ForeignKey('products.id'), nullable=False)
+    quantity = Column(Integer, nullable=False)
+    unit_price = Column(Float, default=0)
+    total_amount = Column(Float, default=0)
+    notes = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # リレーション
+    customer = relationship("Customer", back_populates="sales")
+    product = relationship("Product", back_populates="sales")
+
+
+class Receivable(Base):
+    """売掛金モデル"""
+    __tablename__ = 'receivables'
+
+    id = Column(Integer, primary_key=True)
+    customer_id = Column(Integer, ForeignKey('customers.id'), nullable=False)
+    invoice_id = Column(Integer, ForeignKey('invoices.id'), nullable=True)
+    amount_due = Column(Float, default=0)
+    due_date = Column(DateTime, nullable=False)
+    status = Column(String(20), default='unpaid')
+    notes = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # リレーション
+    customer = relationship("Customer", back_populates="receivables")
+    invoice = relationship("Invoice", back_populates="receivables")
 
 
 class SystemLog(Base):
@@ -275,7 +336,17 @@ class DatabaseManager(QObject):
             inspector = inspect(self.engine)
             existing_tables = inspector.get_table_names()
             
-            required_tables = ['customers', 'products', 'loans', 'invoices', 'invoice_details', 'stock_adjustments']
+            required_tables = [
+                'customers',
+                'products',
+                'loans',
+                'invoices',
+                'invoice_details',
+                'stock_adjustments',
+                'quotations',
+                'sales',
+                'receivables',
+            ]
             missing_tables = [table for table in required_tables if table not in existing_tables]
             
             if missing_tables:
